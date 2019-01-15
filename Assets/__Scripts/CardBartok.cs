@@ -29,6 +29,7 @@ public class CardBartok : Card
 	public int eventualSortOrder;
 	public string eventualSortLayer;
 	public GameObject reportFinishTo = null;
+	public Player callbackPlayer = null;
 
 	public void MoveTo(Vector3 ePos, Quaternion eRot) {
 		bezierPts = new List<Vector3>();
@@ -81,9 +82,13 @@ public class CardBartok : Card
 					if(reportFinishTo != null) {
 						reportFinishTo.SendMessage("CBCallback", this);
 						reportFinishTo = null;
+					} else if(callbackPlayer != null) {
+						callbackPlayer.CBCallback(this);
+						callbackPlayer = null;
 					} else {
 
 					}
+
 				} else {
 					Vector3 pos = Utils.Bezier(uC, bezierPts);
 					transform.localPosition = pos;
@@ -103,4 +108,8 @@ public class CardBartok : Card
 		}
 
     }
+	public override void OnMouseUpAsButton () {
+		Bartok.S.CardClicked(this);
+		base.OnMouseUpAsButton();
+	}
 }
