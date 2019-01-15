@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Prospector : MonoBehaviour {
-	static public Prospector S;
+	/*static public Prospector S;
 
 	[Header ("Set In Inspector")]
 	public TextAsset deckXML;
@@ -346,4 +346,5 @@ public class Prospector : MonoBehaviour {
 				break;
 		}
 	}
+	*/
 }

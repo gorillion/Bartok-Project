@@ -21,7 +21,7 @@ public class CardProspector : Card {
 	public SlotDef slotDef;
 
 	override public void OnMouseUpAsButton () {
-		Prospector.S.CardClicked (this);
+		//Prospector.S.CardClicked (this);
 		base.OnMouseUpAsButton();
 	}
 
