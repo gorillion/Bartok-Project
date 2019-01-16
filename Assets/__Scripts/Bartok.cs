@@ -121,6 +121,9 @@ public class Bartok : MonoBehaviour
 		int lastPlayerNum = -1;
 		if(CURRENT_PLAYER != null) {
 			lastPlayerNum = CURRENT_PLAYER.playerNum;
+			if (CheckGameOver()) {
+				return;
+			}
 		}
 		CURRENT_PLAYER = players[num];
 		phase = TurnPhase.pre;
@@ -128,6 +131,30 @@ public class Bartok : MonoBehaviour
 		CURRENT_PLAYER.TakeTurn();
 
 		Utils.tr("Bartok:PassTurn()", "Old: " + lastPlayerNum,"New: " + CURRENT_PLAYER.playerNum);
+	}
+
+	public bool CheckGameOver () {
+		if(drawPile.Count == 0) {
+			List<Card> cards = new List<Card>();
+			foreach(CardBartok cb in discardPile) {
+				cards.Add(cb);
+			}
+			discardPile.Clear();
+			Deck.Shuffle(ref cards);
+			drawPile = UpgradeCardsList(cards);
+			ArrangeDrawPile();
+		}
+		if(CURRENT_PLAYER.hand.Count == 0) {
+			phase = TurnPhase.gameOver;
+			Invoke("RestartGame", 1);
+			return (true);
+		}
+		return (false);
+	}
+
+	public void RestartGame () {
+		CURRENT_PLAYER = null;
+		SceneManager.LoadScene("__Batrok_Scene_0");
 	}
 
 	public bool ValidPlay(CardBartok cb) {
@@ -186,6 +213,9 @@ public class Bartok : MonoBehaviour
 			}
 		}
 		drawPile.RemoveAt(0);
+		//if (phase != TurnPhase.idle) {
+			//Bartok.S.PassTurn();
+		//}
 		return (cd);
 	}
 	/*
